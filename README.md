@@ -1,8 +1,11 @@
 # Icarus
 
-Meta-repo for the release of the Icarus project. This repository assembles all the pieces needed to create your own fork of Icarus.
-
-Icarus is a reference implementation of the light wallet design.
+Icarus is a reference implementation for a lightweight wallet developed by the
+IOHK Engineering Team. This code base can be used as a point of reference to
+enable developers to create their own secure light and mobile wallets for
+Cardano.  Icarus is a fully open-source code base that will be the first step
+in a range of open source initiatives to provide developers with a suite of
+tools to integrate with Cardano.
 
 ## Getting started
 
