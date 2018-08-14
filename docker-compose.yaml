@@ -1,0 +1,116 @@
+version: "3"
+
+services:
+
+  # The database is initialized for development work;
+  # not production ready!
+  postgres:
+    container_name: icarus-postgres
+    restart: always
+    # we use the official image
+    image: postgres:9.6.5
+    ports:
+      - "5432:5432"
+    # these initialize the database on creation of the container
+    environment:
+      - POSTGRES_PASSWORD=devpassword
+      - POSTGRES_USER=icarus-dev
+      - POSTGRES_DB=icarus-blockchain-importer
+    networks:
+      - development
+
+
+  # This setup task initializes the database on first startup.
+  # On later startups the init fails and it directly exists.
+  postgres-setup:
+    container_name: icarus-postgres-setup
+    restart: "no"
+    build:
+      context: .
+      # based on upstream docker as well, with schema in scope
+      dockerfile: ./Dockerfile-postgres-setup
+    command:
+      - "./wait-for-it.sh"
+      - "--host=postgres"
+      - "--port=5432"
+      - "--"
+      - "psql"
+      - "--host=postgres"
+      - "--port=5432"
+      - "--username=icarus-dev"
+      - "--dbname=icarus-blockchain-importer"
+      - "--file=./schema.sql"
+    environment:
+      - PGPASSWORD=devpassword
+    networks:
+      - development
+
+
+  # Fills the database with blocks;
+  # only process to write to the postgres database.
+  blockchain-importer:
+    container_name: icarus-blockchain-importer
+    restart: on-failure
+    # TODO: push to docker hub
+    # image: icarus/blockchain-importer-testnet:latest
+    image: cardano-container-testnet:latest
+    command:
+      - "wait-for-it.sh"
+      - "--host=postgres"
+      - "--port=5432"
+      - "--"
+      - "cardano-start"
+      - ""
+      - "--runtime-args"
+      # `cardano-start` takes the arguments to the blockchain
+      # imorter process as one string
+      - >-
+        --postgres-name icarus-blockchain-importer
+        --postgres-user icarus-dev
+        --postgres-password devpassword
+        --postgres-host postgres
+        --postgres-port 5432
+    environment:
+      - POSTGRES_PASSWORD=devpassword
+    ports:
+      - "8200:8200"
+    # If you want to mount your own wallet, you have to `chown`
+    # it to UID/GID 999:999 first (the user of this container).
+    # volumes:
+    #   - ./path/to/mywallet:/wallet
+    networks:
+      - development
+
+
+  # The backend process the Chrome plugin talks to.
+  backend:
+    container_name: icarus-backend
+    # TODO: push to docker hub
+    image: icarus/backend:latest
+    build:
+      context: ./backend
+      dockerfile: ./docker/Dockerfile
+    restart: on-failure
+
+    environment:
+      # this loads the config from `backend/config/develop.js`
+      - NODE_ENV=develop
+      # … and overrides some fields
+      - >-
+        NODE_CONFIG={
+          "db": {
+            "user": "icarus-dev",
+            "host": "postgres",
+            "database": "icarus-blockchain-importer",
+            "password": "devpassword",
+            "port": 5432
+          }
+        }
+    networks:
+      - development
+
+
+# set one network that every image is in
+networks:
+  development:
+    driver: bridge
