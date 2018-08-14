@@ -9,13 +9,17 @@ tools to integrate with Cardano.
 
 ## Getting started
 
-This project is structured in two sides: the backend and the chrome extension
+This project is structured in trhee sides: the backend, the importer and the chrome extension
 
 ### Backend development
 
 To build the backend, install [Docker](https://www.docker.com/get-started) and docker-compose.
 
 Once this is done, run `docker-compose up` to build and start the backend locally.
+
+### Importer development
+
+Please refer to the follwing [README](https://github.com/atixlabs/project-icarus-importer/blob/icarus-master/blockchain-importer/README.md)
 
 ### Chrome extension development
 
