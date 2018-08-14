@@ -23,3 +23,8 @@ Everything is described in [chrome-extension/](chrome-extension/#readme)
 * [backend/](backend/#readme) - the source of the webapp
 * [cardano-sl/](cardano-sl/#readme) - the chain importer
 * [chrome-extension/](chrome-extension/#readme) - the source of the chrome extension
+
+
+## License
+
+This project is Copyright 2018 IOHK and licensed under the [MIT](LICENSE.md)
