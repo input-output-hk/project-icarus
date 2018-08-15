@@ -29,4 +29,4 @@ Everything is described in [chrome-extension/](https://github.com/input-output-h
 
 ## License
 
-This project is Copyright Copyright (c) 2018 IOHK Ltd. and licensed under the [MIT](LICENSE.md)
+Licensed under the [Apache License, Version 2.0 MIT](LICENSE.md)
