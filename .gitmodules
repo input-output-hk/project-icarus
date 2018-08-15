@@ -1,12 +1,12 @@
 [submodule "backend"]
 	path = backend
-	url = git@github.com:input-output-hk/icarus-poc-backend-service.git
-	branch = beta
+	url = git@github.com:input-output-hk/project-icarus-backend-service.git
+ branch = master
+[submodule "importer"]
+	path = importer
+ url = git@github.com:input-output-hk/project-icarus-importer.git
+ branch = icarus-master
 [submodule "chrome-extension"]
 	path = chrome-extension
-	url = git@github.com:input-output-hk/icarus-poc.git
-	branch = beta
-[submodule "cardano-sl"]
-	path = cardano-sl
-	url = git@github.com:atixlabs/cardano-sl.git
-	branch = beta
+ url = git@github.com:input-output-hk/project-icarus-chrome.git
+ branch = master
