@@ -1,9 +1,12 @@
 [submodule "backend"]
 	path = backend
 	url = git@github.com:input-output-hk/project-icarus-backend-service.git
+ branch = master
 [submodule "importer"]
 	path = importer
-	url = git@github.com:input-output-hk/project-icarus-importer.git
+ url = git@github.com:input-output-hk/project-icarus-importer.git
+ branch = icarus-master
 [submodule "chrome-extension"]
 	path = chrome-extension
-	url = git@github.com:input-output-hk/project-icarus-chrome.git
+ url = git@github.com:input-output-hk/project-icarus-chrome.git
+ branch = master
