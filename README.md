@@ -14,19 +14,19 @@ Once this is done, run `docker-compose up` to build and start the backend locall
 
 ### Importer development
 
-Please refer to the follwing [README](https://github.com/atixlabs/project-icarus-importer/blob/icarus-master/blockchain-importer/README.md)
+Please refer to the follwing [README](https://github.com/input-output-hk/project-icarus-importer/blob/icarus-master/blockchain-importer/README.md)
 
 ### Chrome extension development
 
-Everything is described in [chrome-extension/](chrome-extension/#readme)
+Everything is described in [chrome-extension/](https://github.com/input-output-hk/project-icarus-chrome/blob/master/README.md)
 
 ## Project layout
 
-* [backend/](backend/#readme) - the source of the webapp
-* [cardano-sl/](cardano-sl/#readme) - the chain importer
-* [chrome-extension/](chrome-extension/#readme) - the source of the chrome extension
+* [backend/](https://github.com/input-output-hk/project-icarus-backend-service) - the source of the backend webapp
+* [importer/](https://github.com/input-output-hk/project-icarus-importer) - the chain importer
+* [chrome-extension/](https://github.com/input-output-hk/project-icarus-chrome) - the source of the chrome extension
 
 
 ## License
 
-This project is Copyright 2018 IOHK and licensed under the [MIT](LICENSE.md)
+This project is Copyright Copyright (c) 2018 IOHK Ltd. and licensed under the [MIT](LICENSE.md)
