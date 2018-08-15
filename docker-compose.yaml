@@ -16,15 +16,15 @@ services:
       - POSTGRES_PASSWORD=devpassword
       - POSTGRES_USER=icarus-dev
       - POSTGRES_DB=icarus-blockchain-importer
-    networks:
-      - development
-
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
 
   # This setup task initializes the database on first startup.
   # On later startups the init fails and it directly exists.
   postgres-setup:
     container_name: icarus-postgres-setup
     restart: "no"
+    # image: icarus/postgres-setup
     build:
       context: .
       # based on upstream docker as well, with schema in scope
@@ -42,8 +42,6 @@ services:
       - "--file=./schema.sql"
     environment:
       - PGPASSWORD=devpassword
-    networks:
-      - development
 
 
   # Fills the database with blocks;
@@ -51,7 +49,6 @@ services:
   blockchain-importer:
     container_name: icarus-blockchain-importer
     restart: on-failure
-    # TODO: push to docker hub
     # image: icarus/blockchain-importer-testnet:latest
     image: cardano-container-testnet:latest
     command:
@@ -78,26 +75,31 @@ services:
     # it to UID/GID 999:999 first (the user of this container).
     # volumes:
     #   - ./path/to/mywallet:/wallet
-    networks:
-      - development
+    volumes:
+      - importer-data:/wallet
 
 
   # The backend process the Chrome plugin talks to.
   backend:
     container_name: icarus-backend
-    # TODO: push to docker hub
-    image: icarus/backend:latest
+    # image: icarus/backend:latest
+    ports:
+      - "8080:8080"
     build:
       context: ./backend
       dockerfile: ./docker/Dockerfile
     restart: on-failure
 
     environment:
-      # this loads the config from `backend/config/develop.js`
+      # load the config from `backend/config/develop.js`
       - NODE_ENV=develop
-      # … and overrides some fields
+      # add some more configuration
       - >-
         NODE_CONFIG={
+          "server": {
+            "importerSendTxEndpoint": "http://blockchain-importer:8200",
+            "port": 8080
+          },
           "db": {
             "user": "icarus-dev",
             "host": "postgres",
@@ -106,11 +108,8 @@ services:
             "port": 5432
           }
         }
-    networks:
-      - development
 
 
-# set one network that every image is in
-networks:
-  development:
-    driver: bridge
+volumes:
+  postgres-data:
+  importer-data:
