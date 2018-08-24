@@ -108,6 +108,8 @@ services:
         }
     networks:
       - development
+    ports:
+      - "8080:8080"
 
 
 # set one network that every image is in
